@@ -1,3 +1,8 @@
+# JavaScript Module Build Script
+# by @blacktm
+# 
+# v1 - 2012.11.9
+
 #!/usr/bin/env ruby
 
 require 'json'
@@ -39,6 +44,7 @@ def build(manifest)
     js_build << "\n(function () {\n"
   end
   
+  # TODO: If compiler has errors, print and quit
   result = IO.popen(compiler_cmd)
   js_build << result.readlines.join
   
@@ -62,6 +68,8 @@ end
 # Running file directly
 if __FILE__ == $0
   
+  # TODO: If no options, print help / usage
+  
   if File.file? ARGV[0]
     manifest = File.open(ARGV[0], "r") { |f| f.read }
     manifest = JSON.parse(manifest).symbolize_keys
@@ -69,6 +77,11 @@ if __FILE__ == $0
     puts "\e[0;31mBuild file does not exist. Quitting...\e[0m"
     exit
   end
+  
+  # TODO: Validate manifest.json before running
+  
+  # TODO: Remove "dev mode"
+  # TODO: Add options "--compile", "-c", "--minimize", "-m"
   
   if ARGV[1] == "--dev"
     manifest[:dev_mode] = true
